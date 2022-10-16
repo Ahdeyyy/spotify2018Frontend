@@ -25,12 +25,12 @@ func main() {
 
 	defer db.Close()
 
-
-	server := NewCustomServer("443", false)
+	server := NewCustomServer(os.Getenv("PORT"), false)
 	server.addHandler("/", &Home{ db : db } )
 	server.addHandler("/search", &Search{db: db} )
 	server.addHandler("/api/",&Index{db: db})
-
+	log.Println("Server started on port", os.Getenv("PORT"))
+	
 	go server.Start()
 
 	// Wait for a signal to quit:
