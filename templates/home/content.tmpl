@@ -1,0 +1,34 @@
+{{ define "content" -}}
+
+<div class="overflow-x-auto py-0.5">
+  <table class="table table-compact w-full">
+    <thead>
+      <tr>
+        <th></th> 
+        <th>Name</th> 
+        <th>Artist</th> 
+        <th>Duration</th>
+      </tr>
+    </thead> 
+    <tbody>
+        {{range $index, $song := .Songs}}
+            <tr>
+                <th>{{ addOne $index}}</th> 
+                <td>{{$song.Name}}</td>
+                <td>{{$song.Artists}}</td>
+                <td>{{ msToMin $song.Duration_ms}} Mins</td>
+            </tr>
+
+        {{ end }}
+    </tbody> 
+    <tfoot>
+      <tr>
+        <th></th> 
+        <th>Name</th> 
+        <th>Artist</th> 
+        <th>Duration</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{{ end }}
