@@ -26,7 +26,7 @@ func main() {
 	defer db.Close()
 
 
-	server := NewCustomServer("8080", true)
+	server := NewCustomServer("443", false)
 	server.addHandler("/", &Home{ db : db } )
 	server.addHandler("/search", &Search{db: db} )
 	server.addHandler("/api/",&Index{db: db})
