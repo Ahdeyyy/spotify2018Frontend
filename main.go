@@ -4,6 +4,10 @@ import (
 	"os"
 	"os/signal"
 	"log"
+
+	"github.com/Ahdeyyy/spotify2018Frontend/handlers"
+	"github.com/Ahdeyyy/spotify2018Frontend/database"
+	_ "github.com/Ahdeyyy/spotify2018Frontend/models"
 )
 
 func strToBool(str string) bool {
@@ -17,18 +21,18 @@ func main() {
 
 	// read env file
 
-	db := openDatabase()
-	// arr,_ := parseCsv("data/top2018.csv")
-	// sngs := parseSong(arr)
-	// insertData(db, sngs)
+	dB := db.OpenDatabase()
+	// arr,_ := models.ParseCsv("data/top2018.csv")
+	// sngs := models.ParseSong(arr)
+	// db.InsertData(dB, sngs)
 
 
-	defer db.Close()
+	defer dB.Close()
 
 	server := NewCustomServer(os.Getenv("PORT"), false)
-	server.addHandler("/", &Home{ db : db } )
-	server.addHandler("/search", &Search{db: db} )
-	server.addHandler("/api/",&Index{db: db})
+	server.addHandler("/", &handlers.Home{ Db : dB } )
+	server.addHandler("/search", &handlers.Search{Db: dB} )
+	server.addHandler("/api/",&handlers.Index{ Db: dB})
 	log.Println("Server started on port", os.Getenv("PORT"))
 	
 	go server.Start()

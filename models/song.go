@@ -1,4 +1,4 @@
-package main
+package models
 
 import (
 	"encoding/csv"
@@ -50,7 +50,7 @@ func stringToInt(s string) int {
 }
 
 // parseCsv parses a csv file and returns a 2D slice of strings for the data and a slice of strings for the headers
-func parseCsv(filepath string) ([][]string, []string) {
+func ParseCsv(filepath string) ([][]string, []string) {
 
 	file, err := os.Open(filepath)
 
@@ -83,7 +83,7 @@ func parseCsv(filepath string) ([][]string, []string) {
 }
 
 // parseSong takes a slice of strings and returns a slice of song struct
-func parseSong(records [][]string) []Song {
+func ParseSong(records [][]string) []Song {
 	var songs []Song
 	for _, record := range records {
 		song := Song{

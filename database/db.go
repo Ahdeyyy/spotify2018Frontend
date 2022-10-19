@@ -1,6 +1,7 @@
-package main
+package db
 
 import (
+	"github.com/Ahdeyyy/spotify2018Frontend/models"
 	"database/sql"
 	"log"
 	"os"
@@ -9,7 +10,7 @@ import (
 
 
 // open the database
-func openDatabase() *sql.DB {
+func OpenDatabase() *sql.DB {
 	if _, err := os.Stat("songs.db"); err == nil {
 		// database exists
 		db, err := sql.Open("sqlite3", "./songs.db")
@@ -72,7 +73,7 @@ func createTable(db *sql.DB) {
 }
 
 // insert data into database
-func insertData(db *sql.DB, songs []Song) {
+func InsertData(db *sql.DB, songs []models.Song) {
   	for _, song := range songs {
 
 		sqlStmt := `
@@ -86,15 +87,15 @@ func insertData(db *sql.DB, songs []Song) {
 }
 
 // get all data in database
-func findAll(db *sql.DB) []Song {
+func FindAll(db *sql.DB) []models.Song {
 	rows, err := db.Query("SELECT * FROM songs")
 	if err != nil {
 		log.Println(err)
 	}
 	defer rows.Close()
-	var songs []Song
+	var songs []models.Song
 	for rows.Next() {
-		var song Song
+		var song models.Song
 		err := rows.Scan(&song.Id, &song.Name, &song.Artists, &song.Danceability, &song.Energy, &song.Key, &song.Loudness, &song.Mode, &song.Speechiness, &song.Acousticness, &song.Instrumentalness, &song.Liveness, &song.Valence, &song.Tempo, &song.Duration_ms, &song.Time_signature)
 		if err != nil {
 			log.Println(err)
@@ -109,7 +110,7 @@ func findAll(db *sql.DB) []Song {
 }
 
 // search database for artist
-func findArtist(db *sql.DB, artist string) []Song {
+func FindArtist(db *sql.DB, artist string) []models.Song {
 	
 
 	sqlStmt := `
@@ -120,9 +121,9 @@ func findArtist(db *sql.DB, artist string) []Song {
 		log.Println(err)
 	}
 	defer rows.Close()
-	var songs []Song
+	var songs []models.Song
 	for rows.Next() {
-		var song Song
+		var song models.Song
 		err := rows.Scan(&song.Id, &song.Name, &song.Artists, &song.Danceability, &song.Energy, &song.Key, &song.Loudness, &song.Mode, &song.Speechiness, &song.Acousticness, &song.Instrumentalness, &song.Liveness, &song.Valence, &song.Tempo, &song.Duration_ms, &song.Time_signature)
 		if err != nil {
 			log.Println(err)
