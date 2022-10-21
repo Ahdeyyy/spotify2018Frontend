@@ -29,6 +29,8 @@ func main() {
 
 	defer dB.Close()
 
+	os.Setenv("PORT", "8080")
+
 	server := NewCustomServer(os.Getenv("PORT"), false)
 	server.addHandler("/", &handlers.Home{ Db : dB } )
 	server.addHandler("/search", &handlers.Search{Db: dB} )

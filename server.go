@@ -32,6 +32,9 @@ func (c *CustomServer) addHandler (url string,handler interface{}) {
 }
 
 func (c *CustomServer) Start() {
+	staticFileServer := http.FileServer(http.Dir("./static"))
+	c.Mux.Handle("/static/", http.StripPrefix("/static/", staticFileServer))
+
 	if c.Debug {
 		log.Println("listening on port " + c.Port + ", press ctrl+c to stop")
 		log.Println("http://localhost:" + c.Port)
